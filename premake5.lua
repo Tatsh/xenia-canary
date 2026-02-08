@@ -30,6 +30,18 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_FMT: use system libfmt when set (Linux only). Fail if set and not found.
+use_system_fmt = false
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_FMT") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_fmt = true
+    if not os.execute("pkg-config --exists fmt") then
+      error("USE_SYSTEM_FMT is set but fmt was not found. Install dev-libs/libfmt or unset USE_SYSTEM_FMT.")
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -54,6 +66,9 @@ defines({
 })
 if use_system_xxhash then
   defines({ "XENIA_USE_SYSTEM_XXHASH" })
+end
+if use_system_fmt then
+  defines({ "XENIA_USE_SYSTEM_FMT" })
 end
 
 cdialect("C17")
@@ -327,7 +342,9 @@ workspace("xenia")
   include("third_party/cxxopts.lua")
   include("third_party/tomlplusplus.lua")
   include("third_party/FFmpeg/premake5.lua")
-  include("third_party/fmt.lua")
+  if not use_system_fmt then
+    include("third_party/fmt.lua")
+  end
   include("third_party/glslang-spirv.lua")
   include("third_party/imgui.lua")
   include("third_party/mspack.lua")

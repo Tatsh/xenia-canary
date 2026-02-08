@@ -12,7 +12,7 @@
 
 #include <vector>
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/base/arena.h"
 #include "xenia/base/string_buffer.h"
 

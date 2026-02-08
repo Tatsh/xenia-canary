@@ -8,7 +8,7 @@
  */
 
 #include "xenia/kernel/util/presence_string_builder.h"
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 
 #include "xenia/base/string.h"
 

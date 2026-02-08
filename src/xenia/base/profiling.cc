@@ -11,7 +11,7 @@
 // XELOGI.
 #include "xenia/base/logging.h"
 
-#include "third_party/fmt/include/fmt/printf.h"
+#include "xenia/base/fmt_include.h"
 
 // NOTE: microprofile must be setup first, before profiling.h is included.
 #define MICROPROFILE_ENABLED 1

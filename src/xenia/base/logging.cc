@@ -40,7 +40,7 @@
 #include "xenia/base/platform_win.h"
 #endif  // XE_PLATFORM
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 
 #if XE_PLATFORM_ANDROID
 DEFINE_bool(log_to_logcat, true, "Write log output to Android Logcat.",

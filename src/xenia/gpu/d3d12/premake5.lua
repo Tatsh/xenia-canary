@@ -9,6 +9,9 @@ project("xenia-gpu-d3d12")
   if use_system_xxhash then
     pkg_config.all("libxxhash")
   end
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "fmt",
     "xenia-base",
@@ -30,6 +33,9 @@ if enableMiscSubprojects then
     language("C++")
     if use_system_xxhash then
       pkg_config.all("libxxhash")
+    end
+    if use_system_fmt then
+      pkg_config.all("fmt")
     end
     links({
       "xenia-apu",
@@ -84,6 +90,9 @@ if enableMiscSubprojects then
     uuid("686b859c-0046-44c4-a02c-41fc3fb75698")
     kind("ConsoleApp")
     language("C++")
+    if use_system_fmt then
+      pkg_config.all("fmt")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",

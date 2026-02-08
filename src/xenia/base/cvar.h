@@ -16,7 +16,7 @@
 #include <vector>
 
 #include "third_party/cxxopts/include/cxxopts.hpp"
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "third_party/tomlplusplus/include/toml++/toml.hpp"
 #include "xenia/base/assert.h"
 #include "xenia/base/filesystem.h"

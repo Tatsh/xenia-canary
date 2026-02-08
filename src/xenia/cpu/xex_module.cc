@@ -9,7 +9,7 @@
 
 #include "xenia/cpu/xex_module.h"
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 
 #include "xenia/base/byte_order.h"
 #include "xenia/base/cvar.h"

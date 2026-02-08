@@ -6,6 +6,9 @@ project("xenia-kernel")
   uuid("ae185c4a-1c4f-4503-9892-328e549e871a")
   kind("StaticLib")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "aes_128",
     "fmt",

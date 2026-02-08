@@ -9,7 +9,7 @@
 
 #include "xenia/kernel/xam/user_settings.h"
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/kernel/kernel_state.h"
 #include "xenia/kernel/util/shim_utils.h"
 

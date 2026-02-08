@@ -6,6 +6,9 @@ project("xenia-core")
   uuid("970f7892-f19a-4bf5-8795-478c51757bec")
   kind("StaticLib")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "fmt",
     "xenia-base",

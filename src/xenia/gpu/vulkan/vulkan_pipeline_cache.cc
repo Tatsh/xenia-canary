@@ -12,7 +12,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/logging.h"
 #include "xenia/base/math.h"

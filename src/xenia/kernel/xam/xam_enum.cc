@@ -16,7 +16,7 @@
 #include "xenia/kernel/xenumerator.h"
 #include "xenia/xbox.h"
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 
 namespace xe {
 namespace kernel {

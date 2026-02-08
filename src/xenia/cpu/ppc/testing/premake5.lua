@@ -6,6 +6,9 @@ project("xenia-cpu-ppc-tests")
   uuid("2a57d5ac-4024-4c49-9cd3-aa3a603c2ef8")
   kind("ConsoleApp")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "capstone", -- cpu-backend-x64
     "fmt",
@@ -52,6 +55,9 @@ project("xenia-cpu-ppc-nativetests")
   uuid("E381E8EE-65CD-4D5E-9223-D9C03B2CE78C")
   kind("ConsoleApp")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "fmt",
     "xenia-base",

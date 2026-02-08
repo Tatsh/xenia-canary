@@ -22,6 +22,9 @@ if enableMiscSubprojects then
     uuid("2EF270C7-41A8-4D0E-ACC5-59693A9CCE32")
     kind("ConsoleApp")
     language("C++")
+    if use_system_fmt then
+      pkg_config.all("fmt")
+    end
     links({
       "fmt",
       "xenia-base",

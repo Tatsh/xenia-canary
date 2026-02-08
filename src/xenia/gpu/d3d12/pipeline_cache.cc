@@ -13,7 +13,7 @@
 #include <cstring>
 
 #include "third_party/dxbc/DXBCChecksum.h"
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/byte_order.h"
 #include "xenia/base/clock.h"
@@ -35,7 +35,7 @@
 #include "xenia/gpu/xenos.h"
 #include "xenia/ui/d3d12/d3d12_util.h"
 
-#include "third_party/fmt/include/fmt/xchar.h"
+#include "xenia/base/fmt_include.h"
 
 DEFINE_bool(d3d12_dxbc_disasm, false,
             "Disassemble DXBC shaders after generation.", "D3D12");

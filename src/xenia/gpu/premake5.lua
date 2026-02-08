@@ -9,6 +9,9 @@ project("xenia-gpu")
   if use_system_xxhash then
     pkg_config.all("libxxhash")
   end
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "dxbc",
     "fmt",
@@ -28,6 +31,9 @@ project("xenia-gpu-shader-compiler")
   uuid("ad76d3e4-4c62-439b-a0f6-f83fcf0e83c5")
   kind("ConsoleApp")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "dxbc",
     "fmt",

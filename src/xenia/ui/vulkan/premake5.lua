@@ -25,6 +25,9 @@ if enableMiscSubprojects then
     uuid("97598f13-3177-454c-8e58-c59e2b6ede27")
     single_library_windowed_app_kind()
     language("C++")
+    if use_system_fmt then
+      pkg_config.all("fmt")
+    end
     links({
       "fmt",
       "imgui",

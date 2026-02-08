@@ -16,6 +16,13 @@ local function combined_test_suite(test_suite_name, project_root, base_path, con
   project(test_suite_name)
     kind("ConsoleApp")
     language("C++")
+    if use_system_fmt then
+      local has_fmt = false
+      for _, L in ipairs(config["links"]) do
+        if L == "fmt" then has_fmt = true break end
+      end
+      if has_fmt then pkg_config.all("fmt") end
+    end
     includedirs(merge_arrays(config["includedirs"], {
       project_root.."/"..build_tools,
       project_root.."/"..build_tools_src,
@@ -55,6 +62,13 @@ local function split_test_suite(test_suite_name, project_root, base_path, config
     project(test_suite_name.."-"..test_name)
       kind("ConsoleApp")
       language("C++")
+      if use_system_fmt then
+        local has_fmt = false
+        for _, L in ipairs(config["links"]) do
+          if L == "fmt" then has_fmt = true break end
+        end
+        if has_fmt then pkg_config.all("fmt") end
+      end
       includedirs(merge_arrays(config["includedirs"], {
         project_root.."/"..build_tools,
         project_root.."/"..build_tools_src,

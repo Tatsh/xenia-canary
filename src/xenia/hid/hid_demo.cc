@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "third_party/imgui/imgui.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/cvar.h"

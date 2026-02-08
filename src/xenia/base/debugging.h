@@ -12,7 +12,7 @@
 
 #include <cstdint>
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 
 namespace xe {
 namespace debugging {

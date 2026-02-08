@@ -18,7 +18,7 @@
 #include <utility>
 #include <vector>
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/cvar.h"
 #include "xenia/gpu/draw_extent_estimator.h"

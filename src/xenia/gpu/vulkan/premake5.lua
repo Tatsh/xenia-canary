@@ -9,6 +9,9 @@ project("xenia-gpu-vulkan")
   if use_system_xxhash then
     pkg_config.all("libxxhash")
   end
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "fmt",
     "glslang-spirv",
@@ -34,6 +37,9 @@ if enableMiscSubprojects then
     language("C++")
     if use_system_xxhash then
       pkg_config.all("libxxhash")
+    end
+    if use_system_fmt then
+      pkg_config.all("fmt")
     end
     links({
       "xenia-apu",
@@ -100,6 +106,9 @@ if enableMiscSubprojects then
     uuid("0dd0dd1c-b321-494d-ab9a-6c062f0c65cc")
     kind("ConsoleApp")
     language("C++")
+    if use_system_fmt then
+      pkg_config.all("fmt")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",

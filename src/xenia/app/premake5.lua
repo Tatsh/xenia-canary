@@ -8,6 +8,9 @@ project("xenia-app")
   if use_system_xxhash then
     pkg_config.all("libxxhash")
   end
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",

@@ -12,7 +12,7 @@
 #include "xenia/emulator.h"
 
 #include "config.h"
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "third_party/tabulate/single_include/tabulate/tabulate.hpp"
 #include "third_party/zarchive/include/zarchive/zarchivecommon.h"
 #include "third_party/zarchive/include/zarchive/zarchivewriter.h"

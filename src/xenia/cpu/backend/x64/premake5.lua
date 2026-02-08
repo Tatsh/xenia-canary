@@ -6,6 +6,9 @@ project("xenia-cpu-backend-x64")
   uuid("7d8d5dce-4696-4197-952a-09506f725afe")
   kind("StaticLib")
   language("C++")
+  if use_system_fmt then
+    pkg_config.all("fmt")
+  end
   links({
     "capstone",
     "fmt",

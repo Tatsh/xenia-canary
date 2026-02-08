@@ -17,7 +17,7 @@
 #pragma comment(lib, "../third_party/vtune/lib64/jitprofiling.lib")
 #endif
 
-#include "third_party/fmt/include/fmt/format.h"
+#include "xenia/base/fmt_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/literals.h"
