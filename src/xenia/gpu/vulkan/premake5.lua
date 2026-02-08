@@ -54,6 +54,9 @@ if enableMiscSubprojects then
     if use_system_glslang then
       pkg_config.all("glslang")
     end
+    if use_system_capstone then
+      pkg_config.all("capstone")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -134,6 +137,9 @@ if enableMiscSubprojects then
     end
     if use_system_glslang then
       pkg_config.all("glslang")
+    end
+    if use_system_capstone then
+      pkg_config.all("capstone")
     end
     links({
       "xenia-apu",

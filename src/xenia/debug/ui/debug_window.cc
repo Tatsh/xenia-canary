@@ -11,8 +11,7 @@
 
 #include <cinttypes>
 
-#include "third_party/capstone/include/capstone/capstone.h"
-#include "third_party/capstone/include/capstone/x86.h"
+#include "xenia/base/capstone_include.h"
 #include "third_party/imgui/imgui.h"
 #include "third_party/imgui/imgui_internal.h"
 #include "xenia/base/clock.h"

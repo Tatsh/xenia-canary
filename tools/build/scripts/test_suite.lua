@@ -23,6 +23,13 @@ local function combined_test_suite(test_suite_name, project_root, base_path, con
       end
       if has_fmt then pkg_config.all("fmt") end
     end
+    if use_system_capstone then
+      local has_capstone = false
+      for _, L in ipairs(config["links"]) do
+        if L == "capstone" then has_capstone = true break end
+      end
+      if has_capstone then pkg_config.all("capstone") end
+    end
     includedirs(merge_arrays(config["includedirs"], {
       project_root.."/"..build_tools,
       project_root.."/"..build_tools_src,
@@ -68,6 +75,13 @@ local function split_test_suite(test_suite_name, project_root, base_path, config
           if L == "fmt" then has_fmt = true break end
         end
         if has_fmt then pkg_config.all("fmt") end
+      end
+      if use_system_capstone then
+        local has_capstone = false
+        for _, L in ipairs(config["links"]) do
+          if L == "capstone" then has_capstone = true break end
+        end
+        if has_capstone then pkg_config.all("capstone") end
       end
       includedirs(merge_arrays(config["includedirs"], {
         project_root.."/"..build_tools,

@@ -37,6 +37,9 @@ if enableMiscSubprojects then
     if use_system_fmt then
       pkg_config.all("fmt")
     end
+    if use_system_capstone then
+      pkg_config.all("capstone")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -92,6 +95,9 @@ if enableMiscSubprojects then
     language("C++")
     if use_system_fmt then
       pkg_config.all("fmt")
+    end
+    if use_system_capstone then
+      pkg_config.all("capstone")
     end
     links({
       "xenia-apu",

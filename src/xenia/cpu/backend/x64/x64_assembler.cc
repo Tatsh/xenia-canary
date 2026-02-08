@@ -11,8 +11,7 @@
 
 #include <climits>
 
-#include "third_party/capstone/include/capstone/capstone.h"
-#include "third_party/capstone/include/capstone/x86.h"
+#include "xenia/base/capstone_include.h"
 #include "xenia/base/profiling.h"
 #include "xenia/base/reset_scope.h"
 #include "xenia/base/string.h"

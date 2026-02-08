@@ -9,6 +9,9 @@ project("xenia-cpu-ppc-tests")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
+  if use_system_capstone then
+    pkg_config.all("capstone")
+  end
   links({
     "capstone", -- cpu-backend-x64
     "fmt",

@@ -92,6 +92,18 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_CAPSTONE: use system capstone when set (Linux only). Fail if set and not found.
+use_system_capstone = false
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_CAPSTONE") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_capstone = true
+    if not os.execute("pkg-config --exists capstone") then
+      error("USE_SYSTEM_CAPSTONE is set but capstone was not found. Install dev-libs/capstone or unset USE_SYSTEM_CAPSTONE.")
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -128,6 +140,10 @@ if use_system_zarchive then
 end
 if use_system_glslang then
   defines({ "XENIA_USE_SYSTEM_GLSLANG" })
+end
+if use_system_capstone then
+  defines({ "XENIA_USE_SYSTEM_CAPSTONE" })
+  defines({ "CAPSTONE_X86_ATT_DISABLE", "CAPSTONE_HAS_X86", "CAPSTONE_USE_SYS_DYN_MEM" })
 end
 
 cdialect("C17")
@@ -395,7 +411,9 @@ workspace("xenia")
   configurations({"Checked", "Debug", "Release"})
 
   include("third_party/aes_128.lua")
-  include("third_party/capstone.lua")
+  if not use_system_capstone then
+    include("third_party/capstone.lua")
+  end
   include("third_party/dxbc.lua")
   include("third_party/discord-rpc.lua")
   include("third_party/cxxopts.lua")

@@ -9,6 +9,9 @@ project("xenia-cpu-backend-x64")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
+  if use_system_capstone then
+    pkg_config.all("capstone")
+  end
   links({
     "capstone",
     "fmt",
@@ -16,18 +19,24 @@ project("xenia-cpu-backend-x64")
     "xenia-cpu",
   })
   defines({
-    "CAPSTONE_X86_ATT_DISABLE",
-    "CAPSTONE_HAS_X86",
-    "CAPSTONE_USE_SYS_DYN_MEM",
     "XBYAK_NO_OP_NAMES",
     "XBYAK_ENABLE_OMITTED_OPERAND",
   })
+  if not use_system_capstone then
+    defines({
+      "CAPSTONE_X86_ATT_DISABLE",
+      "CAPSTONE_HAS_X86",
+      "CAPSTONE_USE_SYS_DYN_MEM",
+    })
+  end
   -- Enable VTune, if it's installed.
   if os.isdir(project_root.."/third_party/vtune") then
     defines { "ENABLE_VTUNE=1" }
   end
 
-  includedirs({
-    project_root.."/third_party/capstone/include",
-  })
+  if not use_system_capstone then
+    includedirs({
+      project_root.."/third_party/capstone/include",
+    })
+  end
   local_platform_files()
