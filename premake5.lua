@@ -141,6 +141,8 @@ filter({"configurations:Release", "platforms:Windows"}) -- "toolset:msc"
 filter("platforms:Linux")
   system("linux")
   toolset("clang")
+  -- Unused-result: warn only, do not promote to error (e.g. readlink, ftruncate, fread).
+  buildoptions({ "-Wno-error=unused-result" })
   --buildoptions({
   --    "-mlzcnt",   -- (don't) Assume lzcnt is supported.
   --})
