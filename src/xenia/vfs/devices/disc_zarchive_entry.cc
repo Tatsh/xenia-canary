@@ -12,7 +12,7 @@
 #include "xenia/base/math.h"
 #include "xenia/vfs/devices/disc_zarchive_file.h"
 
-#include "third_party/zarchive/include/zarchive/zarchivereader.h"
+#include "xenia/base/zarchive_include.h"
 
 namespace xe {
 namespace vfs {

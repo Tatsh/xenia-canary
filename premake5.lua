@@ -42,6 +42,30 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_ZSTD: use system libzstd when set (Linux only). Fail if set and not found.
+use_system_zstd = false
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_ZSTD") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_zstd = true
+    if not os.execute("pkg-config --exists libzstd") then
+      error("USE_SYSTEM_ZSTD is set but libzstd was not found. Install app-arch/zstd or unset USE_SYSTEM_ZSTD.")
+    end
+  end
+end
+
+-- USE_SYSTEM_ZARCHIVE: use system zarchive when set (Linux only). Fail if set and not found.
+use_system_zarchive = false
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_ZARCHIVE") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_zarchive = true
+    if not os.execute("pkg-config --exists zarchive") then
+      error("USE_SYSTEM_ZARCHIVE is set but zarchive was not found. Install app-arch/zarchive or unset USE_SYSTEM_ZARCHIVE.")
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -69,6 +93,12 @@ if use_system_xxhash then
 end
 if use_system_fmt then
   defines({ "XENIA_USE_SYSTEM_FMT" })
+end
+if use_system_zstd then
+  defines({ "XENIA_USE_SYSTEM_ZSTD" })
+end
+if use_system_zarchive then
+  defines({ "XENIA_USE_SYSTEM_ZARCHIVE" })
 end
 
 cdialect("C17")
@@ -352,8 +382,12 @@ workspace("xenia")
   if not use_system_xxhash then
     include("third_party/xxhash.lua")
   end
-  include("third_party/zarchive.lua")
-  include("third_party/zstd.lua")
+  if not use_system_zarchive then
+    include("third_party/zarchive.lua")
+  end
+  if not use_system_zstd then
+    include("third_party/zstd.lua")
+  end
   include("third_party/zlib-ng.lua")
   include("third_party/pugixml.lua")
 

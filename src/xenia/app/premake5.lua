@@ -11,6 +11,12 @@ project("xenia-app")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
+  if use_system_zstd then
+    pkg_config.all("libzstd")
+  end
+  if use_system_zarchive then
+    pkg_config.all("zarchive")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",

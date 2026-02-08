@@ -6,6 +6,12 @@ project("xenia-vfs")
   uuid("395c8abd-4dc9-46ed-af7a-c2b9b68a3a98")
   kind("StaticLib")
   language("C++")
+  if use_system_zstd then
+    pkg_config.all("libzstd")
+  end
+  if use_system_zarchive then
+    pkg_config.all("zarchive")
+  end
   links({
     "xenia-base",
     "zstd",

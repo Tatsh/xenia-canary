@@ -16,7 +16,7 @@
 #include "xenia/base/mapped_memory.h"
 #include "xenia/vfs/device.h"
 
-#include "third_party/zarchive/include/zarchive/zarchivereader.h"
+#include "xenia/base/zarchive_include.h"
 
 namespace xe {
 namespace vfs {

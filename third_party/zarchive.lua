@@ -3,13 +3,18 @@ project("zarchive")
   uuid("d32f03aa-f0c9-11ed-a05b-0242ac120003")
   kind("StaticLib")
   language("C++")
-  links({
-    "zstd",
-  })
+  if use_system_zstd then
+    pkg_config.all("libzstd")
+  end
+  links(use_system_zstd and {} or {"zstd"})
   includedirs({
     "zarchive/include",
-    "zstd/lib",
   })
+  if not use_system_zstd then
+    includedirs({
+      "zstd/lib",
+    })
+  end
   files({
     "zarchive/include/zarchive/zarchivecommon.h",
     "zarchive/include/zarchive/zarchivereader.h",
