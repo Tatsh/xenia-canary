@@ -19,6 +19,7 @@ project("xenia-app")
     "xenia-gpu-vulkan",
     "xenia-hid",
     "xenia-hid-nop",
+    "xenia-hid-skylander",
     "xenia-kernel",
     "xenia-patcher",
     "xenia-ui",
@@ -34,10 +35,15 @@ project("xenia-app")
     "glslang-spirv",
     "imgui",
     "libavcodec",
+    "libavformat",
     "libavutil",
     "mspack",
+    "pugixml",
     "snappy",
     "xxhash",
+    "zarchive",
+    "zlib-ng",
+    "zstd",
   })
   defines({
     "XBYAK_NO_OP_NAMES",

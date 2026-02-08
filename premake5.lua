@@ -150,6 +150,7 @@ filter("platforms:Linux")
   links({
     "stdc++fs",
     "dl",
+    "fontconfig",
     "lz4",
     "pthread",
     "rt",
