@@ -397,3 +397,8 @@ workspace("xenia")
     include("src/xenia/hid/xinput")
     include("src/xenia/ui/d3d12")
   end
+
+  -- Generate build/version.h so sources that include it can find it (trace_writer, etc.).
+  if not os.istarget("android") then
+    os.execute("python3 xenia-build.py version-h 2>/dev/null")
+  end

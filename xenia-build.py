@@ -650,6 +650,7 @@ def discover_commands(subparsers):
         "setup": SetupCommand(subparsers),
         "pull": PullCommand(subparsers),
         "premake": PremakeCommand(subparsers),
+        "version-h": VersionHCommand(subparsers),
         "build": BuildCommand(subparsers),
         "buildshaders": BuildShadersCommand(subparsers),
         "devenv": DevenvCommand(subparsers),
@@ -899,6 +900,23 @@ class BaseBuildCommand(Command):
             if result != 0:
                 print_error("ninja failed with one or more errors.")
         return result
+
+
+class VersionHCommand(Command):
+    """'version-h' command: generate build/version.h only.
+    """
+
+    def __init__(self, subparsers, *args, **kwargs):
+        super(VersionHCommand, self).__init__(
+            subparsers,
+            name="version-h",
+            help_short="Generate build/version.h (git branch, commit, date).",
+            *args, **kwargs)
+
+    def execute(self, args, pass_args, cwd):
+        os.makedirs("build", exist_ok=True)
+        generate_version_h()
+        return 0
 
 
 class BuildCommand(BaseBuildCommand):
