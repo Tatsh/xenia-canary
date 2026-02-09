@@ -40,6 +40,12 @@ function pkg_config.lflags(lib)
 end
 
 function pkg_config.all(lib)
-    pkg_config.cflags(lib)
-    pkg_config.lflags(lib)
+  -- When glslang has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "glslang" and use_system_glslang and glslang_system_include and glslang_system_links then
+    includedirs(glslang_system_include)
+    links(glslang_system_links)
+    return
+  end
+  pkg_config.cflags(lib)
+  pkg_config.lflags(lib)
 end

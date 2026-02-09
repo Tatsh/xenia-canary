@@ -12,7 +12,17 @@ project("xenia-gpu")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
-  links({
+  if use_system_glslang then
+    pkg_config.all("glslang")
+  end
+  links(use_system_glslang and {
+    "dxbc",
+    "fmt",
+    "snappy",
+    "xenia-base",
+    "xenia-ui",
+    "xxhash",
+  } or {
     "dxbc",
     "fmt",
     "glslang-spirv",
@@ -34,7 +44,18 @@ project("xenia-gpu-shader-compiler")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
-  links({
+  if use_system_glslang then
+    pkg_config.all("glslang")
+  end
+  links(use_system_glslang and {
+    "dxbc",
+    "fmt",
+    "snappy",
+    "xenia-base",
+    "xenia-gpu",
+    "xenia-ui",
+    "xenia-ui-vulkan",
+  } or {
     "dxbc",
     "fmt",
     "glslang-spirv",

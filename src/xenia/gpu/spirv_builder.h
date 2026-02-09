@@ -15,7 +15,7 @@
 #include <utility>
 #include <vector>
 
-#include "third_party/glslang/SPIRV/SpvBuilder.h"
+#include "xenia/base/glslang_include.h"
 #include "xenia/base/assert.h"
 
 namespace xe {

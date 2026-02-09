@@ -12,7 +12,17 @@ project("xenia-gpu-vulkan")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
-  links({
+  if use_system_glslang then
+    pkg_config.all("glslang")
+  end
+  links(use_system_glslang and {
+    "fmt",
+    "xenia-base",
+    "xenia-gpu",
+    "xenia-ui",
+    "xenia-ui-vulkan",
+    "xxhash",
+  } or {
     "fmt",
     "glslang-spirv",
     "xenia-base",
@@ -41,6 +51,9 @@ if enableMiscSubprojects then
     if use_system_fmt then
       pkg_config.all("fmt")
     end
+    if use_system_glslang then
+      pkg_config.all("glslang")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -58,7 +71,17 @@ if enableMiscSubprojects then
       "xenia-ui-vulkan",
       "xenia-vfs",
     })
-    links({
+    links(use_system_glslang and {
+      "aes_128",
+      "capstone",
+      "fmt",
+      "imgui",
+      "libavcodec",
+      "libavutil",
+      "mspack",
+      "snappy",
+      "xxhash",
+    } or {
       "aes_128",
       "capstone",
       "fmt",
@@ -109,6 +132,9 @@ if enableMiscSubprojects then
     if use_system_fmt then
       pkg_config.all("fmt")
     end
+    if use_system_glslang then
+      pkg_config.all("glslang")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -126,7 +152,17 @@ if enableMiscSubprojects then
       "xenia-vfs",
       "xenia-patcher",
     })
-    links({
+    links(use_system_glslang and {
+      "aes_128",
+      "capstone",
+      "fmt",
+      "imgui",
+      "libavcodec",
+      "libavutil",
+      "mspack",
+      "snappy",
+      "xxhash",
+    } or {
       "aes_128",
       "capstone",
       "fmt",

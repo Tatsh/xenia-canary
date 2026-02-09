@@ -17,6 +17,9 @@ project("xenia-app")
   if use_system_zarchive then
     pkg_config.all("zarchive")
   end
+  if use_system_glslang then
+    pkg_config.all("glslang")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",
@@ -35,7 +38,24 @@ project("xenia-app")
     "xenia-ui-vulkan",
     "xenia-vfs",
   })
-  links({
+  links(use_system_glslang and {
+    "aes_128",
+    "capstone",
+    "fmt",
+    "dxbc",
+    "discord-rpc",
+    "imgui",
+    "libavcodec",
+    "libavformat",
+    "libavutil",
+    "mspack",
+    "pugixml",
+    "snappy",
+    "xxhash",
+    "zarchive",
+    "zlib-ng",
+    "zstd",
+  } or {
     "aes_128",
     "capstone",
     "fmt",

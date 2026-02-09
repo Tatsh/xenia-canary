@@ -12,7 +12,7 @@
 #include <string>
 #include <utility>
 
-#include "third_party/glslang/SPIRV/disassemble.h"
+#include "xenia/base/glslang_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/console_app_main.h"
 #include "xenia/base/cvar.h"
