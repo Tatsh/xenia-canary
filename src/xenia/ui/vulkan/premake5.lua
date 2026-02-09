@@ -30,13 +30,18 @@ if enableMiscSubprojects then
     if use_system_fmt then
       pkg_config.all("fmt")
     end
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "fmt",
-      "imgui",
       "xenia-base",
       "xenia-ui",
       "xenia-ui-vulkan",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     if not use_system_vulkan_headers then
       includedirs({
         project_root.."/third_party/Vulkan-Headers/include",

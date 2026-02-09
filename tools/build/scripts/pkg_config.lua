@@ -71,6 +71,12 @@ function pkg_config.all(lib)
     links(discord_rpc_system_links)
     return
   end
+  -- When imgui has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "imgui" and use_system_imgui and imgui_system_include and imgui_system_links then
+    includedirs(imgui_system_include)
+    links(imgui_system_links)
+    return
+  end
   pkg_config.cflags(lib)
   pkg_config.lflags(lib)
 end

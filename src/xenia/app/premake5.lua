@@ -35,6 +35,9 @@ project("xenia-app")
   if use_system_discord_rpc then
     pkg_config.all("discord-rpc")
   end
+  if use_system_imgui then
+    pkg_config.all("imgui")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",
@@ -58,7 +61,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "imgui",
     "libavcodec",
     "libavformat",
     "libavutil",
@@ -73,7 +75,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "imgui",
     "libavcodec",
     "libavformat",
     "libavutil",
@@ -90,7 +91,6 @@ project("xenia-app")
     "fmt",
     "dxbc",
     "glslang-spirv",
-    "imgui",
     "libavcodec",
     "libavformat",
     "libavutil",
@@ -106,7 +106,6 @@ project("xenia-app")
     "fmt",
     "dxbc",
     "glslang-spirv",
-    "imgui",
     "libavcodec",
     "libavformat",
     "libavutil",
@@ -120,6 +119,9 @@ project("xenia-app")
   }))
   if not use_system_discord_rpc then
     links({ "discord-rpc" })
+  end
+  if not use_system_imgui then
+    links({ "imgui" })
   end
   defines({
     "XBYAK_NO_OP_NAMES",

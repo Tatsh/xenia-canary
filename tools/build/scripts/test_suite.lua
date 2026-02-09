@@ -30,6 +30,9 @@ local function combined_test_suite(test_suite_name, project_root, base_path, con
       end
       if has_capstone then pkg_config.all("capstone") end
     end
+    if use_system_imgui and config["uses_imgui"] then
+      pkg_config.all("imgui")
+    end
     includedirs(merge_arrays(config["includedirs"], {
       project_root.."/"..build_tools,
       project_root.."/"..build_tools_src,
@@ -82,6 +85,9 @@ local function split_test_suite(test_suite_name, project_root, base_path, config
           if L == "capstone" then has_capstone = true break end
         end
         if has_capstone then pkg_config.all("capstone") end
+      end
+      if use_system_imgui and config["uses_imgui"] then
+        pkg_config.all("imgui")
       end
       includedirs(merge_arrays(config["includedirs"], {
         project_root.."/"..build_tools,

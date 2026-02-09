@@ -62,6 +62,9 @@ if enableMiscSubprojects then
     if use_system_snappy then
       pkg_config.all("snappy")
     end
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -83,7 +86,6 @@ if enableMiscSubprojects then
       "aes_128",
       "capstone",
       "fmt",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
@@ -94,13 +96,15 @@ if enableMiscSubprojects then
       "capstone",
       "fmt",
       "glslang-spirv",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
       "snappy",
       "xxhash",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     if not use_system_vulkan_headers then
       includedirs({
         project_root.."/third_party/Vulkan-Headers/include",
@@ -151,6 +155,9 @@ if enableMiscSubprojects then
     if use_system_snappy then
       pkg_config.all("snappy")
     end
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -172,7 +179,6 @@ if enableMiscSubprojects then
       "aes_128",
       "capstone",
       "fmt",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
@@ -183,13 +189,15 @@ if enableMiscSubprojects then
       "capstone",
       "fmt",
       "glslang-spirv",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
       "snappy",
       "xxhash",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     if not use_system_vulkan_headers then
       includedirs({
         project_root.."/third_party/Vulkan-Headers/include",

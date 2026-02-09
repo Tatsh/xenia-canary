@@ -17,7 +17,7 @@
 #include <span>
 #include <vector>
 
-#include "third_party/imgui/imgui.h"
+#include "xenia/base/imgui_include.h"
 #include "xenia/hid/input_system.h"
 #include "xenia/ui/immediate_drawer.h"
 #include "xenia/ui/presenter.h"

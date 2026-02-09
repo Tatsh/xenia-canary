@@ -12,8 +12,8 @@
 #include <cinttypes>
 
 #include "xenia/base/capstone_include.h"
-#include "third_party/imgui/imgui.h"
-#include "third_party/imgui/imgui_internal.h"
+#include "xenia/base/imgui_include.h"
+#include "xenia/base/imgui_internal_include.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/fuzzy.h"
 #include "xenia/base/logging.h"

@@ -12,11 +12,13 @@ project("xenia-cpu-ppc-tests")
   if use_system_capstone then
     pkg_config.all("capstone")
   end
+  if use_system_imgui then
+    pkg_config.all("imgui")
+  end
   links({
     "capstone", -- cpu-backend-x64
     "fmt",
     "mspack",
-    "imgui",
     "xenia-core",
     "xenia-cpu",
     "xenia-gpu",
@@ -25,6 +27,9 @@ project("xenia-cpu-ppc-tests")
     "xenia-patcher",
     "xenia-hid-skylander",
   })
+  if not use_system_imgui then
+    links({ "imgui" })
+  end
   files({
     "ppc_testing_main.cc",
     "../../../base/console_app_main_"..platform_suffix..".cc",

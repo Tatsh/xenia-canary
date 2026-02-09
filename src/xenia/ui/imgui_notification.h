@@ -10,7 +10,7 @@
 #ifndef XENIA_UI_IMGUI_NOTIFICATION_H_
 #define XENIA_UI_IMGUI_NOTIFICATION_H_
 
-#include "third_party/imgui/imgui.h"
+#include "xenia/base/imgui_include.h"
 #include "xenia/ui/imgui_dialog.h"
 #include "xenia/ui/imgui_drawer.h"
 

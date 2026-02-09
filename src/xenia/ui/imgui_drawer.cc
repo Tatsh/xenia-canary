@@ -13,7 +13,7 @@
 #include <cstring>
 #include <ranges>
 
-#include "third_party/imgui/imgui.h"
+#include "xenia/base/imgui_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/logging.h"

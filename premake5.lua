@@ -313,6 +313,27 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_IMGUI: use system imgui when set (Linux only). Link lib; fail if set and not found.
+use_system_imgui = false
+imgui_pkg_config_available = false
+imgui_system_include = nil
+imgui_system_links = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_IMGUI") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_imgui = true
+    imgui_pkg_config_available = os.execute("pkg-config --exists imgui")
+    if not imgui_pkg_config_available then
+      if (os.isfile("/usr/include/imgui/imgui.h") or os.isdir("/usr/include/imgui")) and (os.isfile("/usr/lib/libimgui.a") or os.isfile("/usr/lib/libimgui.so") or os.isfile("/usr/lib64/libimgui.a") or os.isfile("/usr/lib64/libimgui.so")) then
+        imgui_system_include = "/usr/include"
+        imgui_system_links = "imgui"
+      else
+        error("USE_SYSTEM_IMGUI is set but imgui was not found (no pkg-config and no /usr/include/imgui + libimgui). Install media-libs/imgui or unset USE_SYSTEM_IMGUI.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -470,6 +491,9 @@ if use_system_vulkan_memory_allocator then
 end
 if use_system_discord_rpc then
   defines({ "XENIA_USE_SYSTEM_DISCORD_RPC" })
+end
+if use_system_imgui then
+  defines({ "XENIA_USE_SYSTEM_IMGUI" })
 end
 
 cdialect("C17")
@@ -757,7 +781,9 @@ workspace("xenia")
   if not use_system_glslang then
     include("third_party/glslang-spirv.lua")
   end
-  include("third_party/imgui.lua")
+  if not use_system_imgui then
+    include("third_party/imgui.lua")
+  end
   include("third_party/mspack.lua")
   if not use_system_snappy then
     include("third_party/snappy.lua")

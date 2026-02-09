@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "xenia/base/fmt_include.h"
-#include "third_party/imgui/imgui.h"
+#include "xenia/base/imgui_include.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/cvar.h"
 #include "xenia/base/logging.h"

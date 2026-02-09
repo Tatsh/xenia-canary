@@ -9,7 +9,7 @@
 
 #include "xenia/app/emulator_window.h"
 
-#include "third_party/imgui/imgui.h"
+#include "xenia/base/imgui_include.h"
 #include "third_party/stb/stb_image_write.h"
 #include "xenia/base/tomlplusplus_include.h"
 #include "xenia/base/assert.h"

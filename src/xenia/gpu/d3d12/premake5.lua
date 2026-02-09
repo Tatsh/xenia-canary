@@ -60,18 +60,23 @@ if enableMiscSubprojects then
       "xenia-ui-d3d12",
       "xenia-vfs",
     })
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "aes_128",
       "capstone",
       "dxbc",
       "fmt",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
       "snappy",
       "xxhash",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     files({
       "d3d12_trace_viewer_main.cc",
       "../../ui/windowed_app_main_"..platform_suffix..".cc",
@@ -105,6 +110,9 @@ if enableMiscSubprojects then
     if use_system_snappy then
       pkg_config.all("snappy")
     end
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",
@@ -127,13 +135,15 @@ if enableMiscSubprojects then
       "capstone",
       "dxbc",
       "fmt",
-      "imgui",
       "libavcodec",
       "libavutil",
       "mspack",
       "snappy",
       "xxhash",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     files({
       "d3d12_trace_dump_main.cc",
       "../../base/console_app_main_"..platform_suffix..".cc",

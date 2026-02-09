@@ -24,13 +24,18 @@ if enableMiscSubprojects then
     if use_system_fmt then
       pkg_config.all("fmt")
     end
+    if use_system_imgui then
+      pkg_config.all("imgui")
+    end
     links({
       "fmt",
-      "imgui",
       "xenia-base",
       "xenia-ui",
       "xenia-ui-d3d12",
     })
+    if not use_system_imgui then
+      links({ "imgui" })
+    end
     files({
       "../window_demo.cc",
       "d3d12_window_demo.cc",
