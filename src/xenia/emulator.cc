@@ -15,7 +15,9 @@
 #include "xenia/base/fmt_include.h"
 #include "third_party/tabulate/single_include/tabulate/tabulate.hpp"
 #include "xenia/base/zarchive_include.h"
+#if !defined(XENIA_USE_SYSTEM_ZARCHIVE)
 #include "third_party/zarchive/src/sha_256.h"
+#endif
 #include "xenia/apu/audio_system.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/byte_stream.h"
