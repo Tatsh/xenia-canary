@@ -52,6 +52,12 @@ function pkg_config.all(lib)
     links(snappy_system_links)
     return
   end
+  -- When pugixml has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "pugixml" and use_system_pugixml and pugixml_system_include and pugixml_system_links then
+    includedirs(pugixml_system_include)
+    links(pugixml_system_links)
+    return
+  end
   pkg_config.cflags(lib)
   pkg_config.lflags(lib)
 end

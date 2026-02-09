@@ -9,6 +9,9 @@ project("xenia-kernel")
   if use_system_fmt then
     pkg_config.all("fmt")
   end
+  if use_system_pugixml then
+    pkg_config.all("pugixml")
+  end
   links({
     "aes_128",
     "fmt",

@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include "third_party/pugixml/src/pugixml.hpp"
+#include "xenia/base/pugixml_include.h"
 #include "xenia/xbox.h"
 
 namespace xe {

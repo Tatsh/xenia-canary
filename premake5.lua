@@ -126,6 +126,28 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_PUGIXML: use system pugixml when set (Linux only). Fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo without .pc), fall back to /usr/include/pugixml.hpp.
+use_system_pugixml = false
+pugixml_pkg_config_available = false
+pugixml_system_include = nil
+pugixml_system_links = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_PUGIXML") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_pugixml = true
+    pugixml_pkg_config_available = os.execute("pkg-config --exists pugixml")
+    if not pugixml_pkg_config_available then
+      if os.isfile("/usr/include/pugixml.hpp") then
+        pugixml_system_include = "/usr/include"
+        pugixml_system_links = { "pugixml" }
+      else
+        error("USE_SYSTEM_PUGIXML is set but pugixml was not found (no pkg-config and no /usr/include/pugixml.hpp). Install dev-libs/pugixml or unset USE_SYSTEM_PUGIXML.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -169,6 +191,9 @@ if use_system_capstone then
 end
 if use_system_snappy then
   defines({ "XENIA_USE_SYSTEM_SNAPPY" })
+end
+if use_system_pugixml then
+  defines({ "XENIA_USE_SYSTEM_PUGIXML" })
 end
 
 cdialect("C17")
@@ -465,7 +490,9 @@ workspace("xenia")
     include("third_party/zstd.lua")
   end
   include("third_party/zlib-ng.lua")
-  include("third_party/pugixml.lua")
+  if not use_system_pugixml then
+    include("third_party/pugixml.lua")
+  end
 
   if os.istarget("windows") then
     include("third_party/libusb.lua")

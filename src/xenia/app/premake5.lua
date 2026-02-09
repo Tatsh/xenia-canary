@@ -26,6 +26,9 @@ project("xenia-app")
   if use_system_snappy then
     pkg_config.all("snappy")
   end
+  if use_system_pugixml then
+    pkg_config.all("pugixml")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",
