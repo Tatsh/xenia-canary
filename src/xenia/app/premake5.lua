@@ -5,6 +5,9 @@ group("src")
 project("xenia-app")
   uuid("d7e98620-d007-4ad8-9dbd-b47c8853a17f")
   language("C++")
+  if use_system_xxhash then
+    pkg_config.all("libxxhash")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",

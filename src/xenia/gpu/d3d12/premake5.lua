@@ -6,6 +6,9 @@ project("xenia-gpu-d3d12")
   uuid("c057eae4-e7bb-4113-9a69-1fe07b735c49")
   kind("StaticLib")
   language("C++")
+  if use_system_xxhash then
+    pkg_config.all("libxxhash")
+  end
   links({
     "fmt",
     "xenia-base",
@@ -25,6 +28,9 @@ if enableMiscSubprojects then
     uuid("7b5b9fcb-7bf1-43ff-a774-d4c41c8706be")
     single_library_windowed_app_kind()
     language("C++")
+    if use_system_xxhash then
+      pkg_config.all("libxxhash")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",

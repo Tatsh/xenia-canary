@@ -6,6 +6,9 @@ project("xenia-gpu-vulkan")
   uuid("717590b4-f579-4162-8f23-0624e87d6cca")
   kind("StaticLib")
   language("C++")
+  if use_system_xxhash then
+    pkg_config.all("libxxhash")
+  end
   links({
     "fmt",
     "glslang-spirv",
@@ -29,6 +32,9 @@ if enableMiscSubprojects then
     uuid("86a1dddc-a26a-4885-8c55-cf745225d93e")
     single_library_windowed_app_kind()
     language("C++")
+    if use_system_xxhash then
+      pkg_config.all("libxxhash")
+    end
     links({
       "xenia-apu",
       "xenia-apu-nop",

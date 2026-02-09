@@ -6,6 +6,9 @@ project("xenia-gpu")
   uuid("0e8d3370-e4b1-4b05-a2e8-39ebbcdf9b17")
   kind("StaticLib")
   language("C++")
+  if use_system_xxhash then
+    pkg_config.all("libxxhash")
+  end
   links({
     "dxbc",
     "fmt",

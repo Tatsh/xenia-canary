@@ -18,6 +18,18 @@ objdir(build_obj)
 enableTests = false
 enableMiscSubprojects = false
 
+-- USE_SYSTEM_XXHASH: use system libxxhash when set (Linux only). Fail if set and not found.
+use_system_xxhash = false
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_XXHASH") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_xxhash = true
+    if not os.execute("pkg-config --exists libxxhash") then
+      error("USE_SYSTEM_XXHASH is set but libxxhash was not found. Install dev-libs/xxhash or unset USE_SYSTEM_XXHASH.")
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -40,6 +52,9 @@ defines({
   --"IMGUI_ENABLE_FREETYPE",
   "USE_CPP17", -- Tabulate
 })
+if use_system_xxhash then
+  defines({ "XENIA_USE_SYSTEM_XXHASH" })
+end
 
 cdialect("C17")
 cppdialect("C++20")
@@ -314,7 +329,9 @@ workspace("xenia")
   include("third_party/imgui.lua")
   include("third_party/mspack.lua")
   include("third_party/snappy.lua")
-  include("third_party/xxhash.lua")
+  if not use_system_xxhash then
+    include("third_party/xxhash.lua")
+  end
   include("third_party/zarchive.lua")
   include("third_party/zstd.lua")
   include("third_party/zlib-ng.lua")
