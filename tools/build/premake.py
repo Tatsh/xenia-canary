@@ -21,6 +21,21 @@ premake_submodule_path = os.path.join(root_path, "third_party", "premake-core")
 premake_path = premake_submodule_path
 
 
+def use_system_premake():
+    """Use system-installed premake5 when XENIA_USE_SYSTEM_PREMAKE is set."""
+    if os.environ.get("XENIA_USE_SYSTEM_PREMAKE", "").strip() in ("", "0"):
+        return None
+    premake5 = "premake5"
+    if sys.platform == "win32":
+        premake5 += ".exe"
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        path = path.strip('"')
+        exe = os.path.join(path, premake5)
+        if os.path.isfile(exe) and os.access(exe, os.X_OK):
+            return exe
+    return None
+
+
 def setup_premake_path_override():
     global premake_path
     premake_path = premake_submodule_path
@@ -50,6 +65,12 @@ setup_premake_path_override()
 
 
 def main():
+    # When XENIA_USE_SYSTEM_PREMAKE is set, use system premake5 only (do not build).
+    system_premake = use_system_premake()
+    if system_premake is not None:
+        return_code = shell_call([system_premake] + sys.argv[1:], throw_on_error=False)
+        sys.exit(return_code)
+
     # First try the freshly-built premake.
     premake5_bin = os.path.join(premake_path, "bin", "release", "premake5")
     if not has_bin(premake5_bin):
