@@ -148,6 +148,28 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_ZLIB_NG: use system zlib-ng when set (Linux only). Fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo without .pc), fall back to /usr/include/zlib-ng.h.
+use_system_zlib_ng = false
+zlib_ng_pkg_config_available = false
+zlib_ng_system_include = nil
+zlib_ng_system_links = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_ZLIB_NG") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_zlib_ng = true
+    zlib_ng_pkg_config_available = os.execute("pkg-config --exists zlib-ng")
+    if not zlib_ng_pkg_config_available then
+      if os.isfile("/usr/include/zlib-ng.h") then
+        zlib_ng_system_include = "/usr/include"
+        zlib_ng_system_links = { "z-ng" }
+      else
+        error("USE_SYSTEM_ZLIB_NG is set but zlib-ng was not found (no pkg-config and no /usr/include/zlib-ng.h). Install sys-libs/zlib-ng or unset USE_SYSTEM_ZLIB_NG.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -194,6 +216,9 @@ if use_system_snappy then
 end
 if use_system_pugixml then
   defines({ "XENIA_USE_SYSTEM_PUGIXML" })
+end
+if use_system_zlib_ng then
+  defines({ "XENIA_USE_SYSTEM_ZLIB_NG" })
 end
 
 cdialect("C17")
@@ -489,7 +514,9 @@ workspace("xenia")
   if not use_system_zstd then
     include("third_party/zstd.lua")
   end
-  include("third_party/zlib-ng.lua")
+  if not use_system_zlib_ng then
+    include("third_party/zlib-ng.lua")
+  end
   if not use_system_pugixml then
     include("third_party/pugixml.lua")
   end

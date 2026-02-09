@@ -58,6 +58,13 @@ function pkg_config.all(lib)
     links(pugixml_system_links)
     return
   end
+  -- When zlib-ng has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "zlib-ng" and use_system_zlib_ng and zlib_ng_system_include and zlib_ng_system_links then
+    includedirs(zlib_ng_system_include)
+    links(zlib_ng_system_links)
+    defines({ "WITH_GZFILEOP" })
+    return
+  end
   pkg_config.cflags(lib)
   pkg_config.lflags(lib)
 end

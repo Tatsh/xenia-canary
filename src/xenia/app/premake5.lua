@@ -29,6 +29,9 @@ project("xenia-app")
   if use_system_pugixml then
     pkg_config.all("pugixml")
   end
+  if use_system_zlib_ng then
+    pkg_config.all("zlib-ng")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",
@@ -47,7 +50,23 @@ project("xenia-app")
     "xenia-ui-vulkan",
     "xenia-vfs",
   })
-  links(use_system_glslang and {
+  links(use_system_glslang and (use_system_zlib_ng and {
+    "aes_128",
+    "capstone",
+    "fmt",
+    "dxbc",
+    "discord-rpc",
+    "imgui",
+    "libavcodec",
+    "libavformat",
+    "libavutil",
+    "mspack",
+    "pugixml",
+    "snappy",
+    "xxhash",
+    "zarchive",
+    "zstd",
+  } or {
     "aes_128",
     "capstone",
     "fmt",
@@ -63,6 +82,23 @@ project("xenia-app")
     "xxhash",
     "zarchive",
     "zlib-ng",
+    "zstd",
+  }) or (use_system_zlib_ng and {
+    "aes_128",
+    "capstone",
+    "fmt",
+    "dxbc",
+    "discord-rpc",
+    "glslang-spirv",
+    "imgui",
+    "libavcodec",
+    "libavformat",
+    "libavutil",
+    "mspack",
+    "pugixml",
+    "snappy",
+    "xxhash",
+    "zarchive",
     "zstd",
   } or {
     "aes_128",
@@ -82,7 +118,7 @@ project("xenia-app")
     "zarchive",
     "zlib-ng",
     "zstd",
-  })
+  }))
   defines({
     "XBYAK_NO_OP_NAMES",
     "XBYAK_ENABLE_OMITTED_OPERAND",

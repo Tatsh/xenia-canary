@@ -12,7 +12,19 @@ project("xenia-kernel")
   if use_system_pugixml then
     pkg_config.all("pugixml")
   end
-  links({
+  if use_system_zlib_ng then
+    pkg_config.all("zlib-ng")
+  end
+  links(use_system_zlib_ng and {
+    "aes_128",
+    "fmt",
+    "pugixml",
+    "xenia-apu",
+    "xenia-base",
+    "xenia-cpu",
+    "xenia-hid",
+    "xenia-vfs",
+  } or {
     "aes_128",
     "fmt",
     "zlib-ng",
