@@ -170,6 +170,26 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_CXXOPTS: use system cxxopts when set (Linux only). Header-only; fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo without .pc), fall back to /usr/include/cxxopts.hpp.
+use_system_cxxopts = false
+cxxopts_pkg_config_available = false
+cxxopts_system_include = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_CXXOPTS") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_cxxopts = true
+    cxxopts_pkg_config_available = os.execute("pkg-config --exists cxxopts")
+    if not cxxopts_pkg_config_available then
+      if os.isfile("/usr/include/cxxopts.hpp") or os.isdir("/usr/include/cxxopts") then
+        cxxopts_system_include = "/usr/include"
+      else
+        error("USE_SYSTEM_CXXOPTS is set but cxxopts was not found (no pkg-config and no /usr/include/cxxopts.hpp). Install dev-libs/cxxopts or unset USE_SYSTEM_CXXOPTS.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -183,6 +203,20 @@ includedirs({
   "src",
   "third_party",
 })
+if use_system_cxxopts then
+  if cxxopts_system_include then
+    includedirs(cxxopts_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags cxxopts")
+    if cflags then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
 
 defines({
   "VULKAN_HPP_NO_TO_STRING",
@@ -219,6 +253,9 @@ if use_system_pugixml then
 end
 if use_system_zlib_ng then
   defines({ "XENIA_USE_SYSTEM_ZLIB_NG" })
+end
+if use_system_cxxopts then
+  defines({ "XENIA_USE_SYSTEM_CXXOPTS" })
 end
 
 cdialect("C17")
@@ -491,7 +528,9 @@ workspace("xenia")
   end
   include("third_party/dxbc.lua")
   include("third_party/discord-rpc.lua")
-  include("third_party/cxxopts.lua")
+  if not use_system_cxxopts then
+    include("third_party/cxxopts.lua")
+  end
   include("third_party/tomlplusplus.lua")
   include("third_party/FFmpeg/premake5.lua")
   if not use_system_fmt then
