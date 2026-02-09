@@ -499,7 +499,6 @@ end
 cdialect("C17")
 cppdialect("C++20")
 symbols("On")
-fatalwarnings("All")
 
 -- TODO(DrChat): Find a way to disable this on other architectures.
 if ARCH ~= "ppc64" then
@@ -554,7 +553,6 @@ filter("configurations:Release")
     "NDEBUG",
     "_NO_DEBUG_HEAP=1",
   })
-  optimize("Speed")
   flags({
     "NoBufferSecurityCheck"
   })
