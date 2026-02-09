@@ -230,6 +230,30 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_UTFCPP: use system utfcpp (utf8-cpp) when set (Linux only). Header-only; fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo without .pc), fall back to /usr/include/utf8.h or /usr/include/utf8cpp/utf8.h (CMake install).
+use_system_utfcpp = false
+utfcpp_pkg_config_available = false
+utfcpp_system_include = nil
+utfcpp_system_use_utf8cpp_dir = false  -- true when headers are in include/utf8cpp/ (e.g. Gentoo dev-libs/utfcpp)
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_UTFCPP") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_utfcpp = true
+    utfcpp_pkg_config_available = os.execute("pkg-config --exists utfcpp") or os.execute("pkg-config --exists utf8cpp")
+    if not utfcpp_pkg_config_available then
+      if os.isfile("/usr/include/utf8.h") or (os.isdir("/usr/include/utf8") and os.isfile("/usr/include/utf8/core.h")) then
+        utfcpp_system_include = "/usr/include"
+      elseif os.isfile("/usr/include/utf8cpp/utf8.h") or (os.isdir("/usr/include/utf8cpp/utf8") and os.isfile("/usr/include/utf8cpp/utf8/core.h")) then
+        utfcpp_system_include = "/usr/include"
+        utfcpp_system_use_utf8cpp_dir = true
+      else
+        error("USE_SYSTEM_UTFCPP is set but utfcpp was not found (no pkg-config, no /usr/include/utf8.h, no /usr/include/utf8cpp/utf8.h). Install dev-libs/utfcpp or unset USE_SYSTEM_UTFCPP.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -285,6 +309,20 @@ if use_system_tomlplusplus then
     end
   end
 end
+if use_system_utfcpp then
+  if utfcpp_system_include then
+    includedirs(utfcpp_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags utfcpp") or os.outputof("pkg-config --cflags utf8cpp")
+    if cflags and cflags ~= "" then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
 
 defines({
   "VULKAN_HPP_NO_TO_STRING",
@@ -330,6 +368,12 @@ if use_system_xbyak then
 end
 if use_system_tomlplusplus then
   defines({ "XENIA_USE_SYSTEM_TOMLPLUSPLUS" })
+end
+if use_system_utfcpp then
+  defines({ "XENIA_USE_SYSTEM_UTFCPP" })
+  if utfcpp_system_use_utf8cpp_dir then
+    defines({ "XENIA_USE_SYSTEM_UTFCPP_UTF8CPP_HEADER" })
+  end
 end
 
 cdialect("C17")

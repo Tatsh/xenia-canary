@@ -16,7 +16,7 @@
 #if defined(_MSVC_LANG) && _MSVC_LANG > __cplusplus
 #define UTF_CPP_CPLUSPLUS _MSVC_LANG
 #endif
-#include "third_party/utfcpp/source/utf8.h"
+#include "xenia/base/utfcpp_include.h"
 
 namespace utfcpp = utf8;
 
