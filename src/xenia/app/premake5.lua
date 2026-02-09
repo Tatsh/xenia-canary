@@ -32,6 +32,9 @@ project("xenia-app")
   if use_system_zlib_ng then
     pkg_config.all("zlib-ng")
   end
+  if use_system_discord_rpc then
+    pkg_config.all("discord-rpc")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",
@@ -55,7 +58,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "discord-rpc",
     "imgui",
     "libavcodec",
     "libavformat",
@@ -71,7 +73,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "discord-rpc",
     "imgui",
     "libavcodec",
     "libavformat",
@@ -88,7 +89,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "discord-rpc",
     "glslang-spirv",
     "imgui",
     "libavcodec",
@@ -105,7 +105,6 @@ project("xenia-app")
     "capstone",
     "fmt",
     "dxbc",
-    "discord-rpc",
     "glslang-spirv",
     "imgui",
     "libavcodec",
@@ -119,6 +118,9 @@ project("xenia-app")
     "zlib-ng",
     "zstd",
   }))
+  if not use_system_discord_rpc then
+    links({ "discord-rpc" })
+  end
   defines({
     "XBYAK_NO_OP_NAMES",
     "XBYAK_ENABLE_OMITTED_OPERAND",

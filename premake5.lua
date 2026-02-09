@@ -292,6 +292,27 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_DISCORD_RPC: use system discord-rpc when set (Linux only). Link lib; fail if set and not found.
+use_system_discord_rpc = false
+discord_rpc_pkg_config_available = false
+discord_rpc_system_include = nil
+discord_rpc_system_links = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_DISCORD_RPC") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_discord_rpc = true
+    discord_rpc_pkg_config_available = os.execute("pkg-config --exists discord-rpc") or os.execute("pkg-config --exists discord_rpc")
+    if not discord_rpc_pkg_config_available then
+      if os.isfile("/usr/include/discord_rpc.h") and (os.isfile("/usr/lib/libdiscord-rpc.so") or os.isfile("/usr/lib64/libdiscord-rpc.so")) then
+        discord_rpc_system_include = "/usr/include"
+        discord_rpc_system_links = "discord-rpc"
+      else
+        error("USE_SYSTEM_DISCORD_RPC is set but discord-rpc was not found (no pkg-config and no /usr/include/discord_rpc.h + libdiscord-rpc.so). Install dev-libs/discord-rpc or unset USE_SYSTEM_DISCORD_RPC.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -446,6 +467,9 @@ if use_system_vulkan_headers then
 end
 if use_system_vulkan_memory_allocator then
   defines({ "XENIA_USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR" })
+end
+if use_system_discord_rpc then
+  defines({ "XENIA_USE_SYSTEM_DISCORD_RPC" })
 end
 
 cdialect("C17")
@@ -717,7 +741,9 @@ workspace("xenia")
     include("third_party/capstone.lua")
   end
   include("third_party/dxbc.lua")
-  include("third_party/discord-rpc.lua")
+  if not use_system_discord_rpc then
+    include("third_party/discord-rpc.lua")
+  end
   if not use_system_cxxopts then
     include("third_party/cxxopts.lua")
   end

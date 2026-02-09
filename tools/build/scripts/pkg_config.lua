@@ -65,6 +65,12 @@ function pkg_config.all(lib)
     defines({ "WITH_GZFILEOP" })
     return
   end
+  -- When discord-rpc has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "discord-rpc" and use_system_discord_rpc and discord_rpc_system_include and discord_rpc_system_links then
+    includedirs(discord_rpc_system_include)
+    links(discord_rpc_system_links)
+    return
+  end
   pkg_config.cflags(lib)
   pkg_config.lflags(lib)
 end
