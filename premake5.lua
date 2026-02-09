@@ -254,6 +254,44 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_VULKAN_HEADERS: use system Vulkan headers when set (Linux only). Header-only; fail if set and not found.
+use_system_vulkan_headers = false
+vulkan_headers_pkg_config_available = false
+vulkan_headers_system_include = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_VULKAN_HEADERS") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_vulkan_headers = true
+    vulkan_headers_pkg_config_available = os.execute("pkg-config --exists vulkan-headers") or os.execute("pkg-config --exists VulkanHeaders")
+    if not vulkan_headers_pkg_config_available then
+      if os.isfile("/usr/include/vulkan/vulkan.h") or os.isdir("/usr/include/vulkan") then
+        vulkan_headers_system_include = "/usr/include"
+      else
+        error("USE_SYSTEM_VULKAN_HEADERS is set but Vulkan headers were not found (no pkg-config and no /usr/include/vulkan). Install dev-util/vulkan-headers or unset USE_SYSTEM_VULKAN_HEADERS.")
+      end
+    end
+  end
+end
+
+-- USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR: use system VulkanMemoryAllocator when set (Linux only). Header-only; fail if set and not found.
+use_system_vulkan_memory_allocator = false
+vulkan_memory_allocator_pkg_config_available = false
+vulkan_memory_allocator_system_include = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_vulkan_memory_allocator = true
+    vulkan_memory_allocator_pkg_config_available = os.execute("pkg-config --exists VulkanMemoryAllocator") or os.execute("pkg-config --exists vk_mem_alloc")
+    if not vulkan_memory_allocator_pkg_config_available then
+      if os.isfile("/usr/include/vk_mem_alloc.h") or os.isdir("/usr/include/VulkanMemoryAllocator") then
+        vulkan_memory_allocator_system_include = "/usr/include"
+      else
+        error("USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR is set but VulkanMemoryAllocator was not found (no pkg-config and no /usr/include/vk_mem_alloc.h). Install media-libs/VulkanMemoryAllocator or unset USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -323,6 +361,34 @@ if use_system_utfcpp then
     end
   end
 end
+if use_system_vulkan_headers then
+  if vulkan_headers_system_include then
+    includedirs(vulkan_headers_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags vulkan-headers") or os.outputof("pkg-config --cflags VulkanHeaders")
+    if cflags and cflags ~= "" then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
+if use_system_vulkan_memory_allocator then
+  if vulkan_memory_allocator_system_include then
+    includedirs(vulkan_memory_allocator_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags VulkanMemoryAllocator") or os.outputof("pkg-config --cflags vk_mem_alloc")
+    if cflags and cflags ~= "" then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
 
 defines({
   "VULKAN_HPP_NO_TO_STRING",
@@ -374,6 +440,12 @@ if use_system_utfcpp then
   if utfcpp_system_use_utf8cpp_dir then
     defines({ "XENIA_USE_SYSTEM_UTFCPP_UTF8CPP_HEADER" })
   end
+end
+if use_system_vulkan_headers then
+  defines({ "XENIA_USE_SYSTEM_VULKAN_HEADERS" })
+end
+if use_system_vulkan_memory_allocator then
+  defines({ "XENIA_USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR" })
 end
 
 cdialect("C17")

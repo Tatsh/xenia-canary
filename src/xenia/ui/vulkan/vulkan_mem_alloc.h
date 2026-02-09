@@ -10,8 +10,7 @@
 #ifndef XENIA_UI_VULKAN_VULKAN_MEM_ALLOC_H_
 #define XENIA_UI_VULKAN_VULKAN_MEM_ALLOC_H_
 
-// Make sure vulkan.h is included from third_party (rather than from the system
-// include directory) before vk_mem_alloc.h.
+// vulkan.h must be included (via vulkan_device.h -> vulkan_api.h) before vk_mem_alloc.h.
 
 #include "xenia/ui/vulkan/vulkan_device.h"
 
@@ -23,7 +22,7 @@
 #ifndef VMA_NOT_NULL
 #define VMA_NOT_NULL
 #endif
-#include "third_party/VulkanMemoryAllocator/include/vk_mem_alloc.h"
+#include "xenia/base/vulkan_memory_allocator_include.h"
 
 namespace xe {
 namespace ui {

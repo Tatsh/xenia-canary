@@ -42,9 +42,6 @@
 #endif
 #endif
 
-#include "third_party/Vulkan-Headers/include/vulkan/vulkan.h"
-
-#include "third_party/Vulkan-Headers/include/vulkan/vulkan_hpp_macros.hpp"
-#include "third_party/Vulkan-Headers/include/vulkan/vulkan_to_string.hpp"
+#include "xenia/base/vulkan_headers_include.h"
 
 #endif  // XENIA_UI_VULKAN_VULKAN_API_H_

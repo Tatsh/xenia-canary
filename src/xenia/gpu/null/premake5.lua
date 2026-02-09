@@ -16,7 +16,9 @@ project("xenia-gpu-null")
     "xenia-ui-vulkan",
     "xxhash",
   })
-  includedirs({
-    project_root.."/third_party/Vulkan-Headers/include",
-  })
+  if not use_system_vulkan_headers then
+    includedirs({
+      project_root.."/third_party/Vulkan-Headers/include",
+    })
+  end
   local_platform_files()

@@ -10,9 +10,11 @@ project("xenia-ui-vulkan")
     "xenia-base",
     "xenia-ui",
   })
-  includedirs({
-    project_root.."/third_party/Vulkan-Headers/include",
-  })
+  if not use_system_vulkan_headers then
+    includedirs({
+      project_root.."/third_party/Vulkan-Headers/include",
+    })
+  end
   local_platform_files()
   local_platform_files("functions")
   files({
@@ -35,9 +37,11 @@ if enableMiscSubprojects then
       "xenia-ui",
       "xenia-ui-vulkan",
     })
-    includedirs({
-      project_root.."/third_party/Vulkan-Headers/include",
-    })
+    if not use_system_vulkan_headers then
+      includedirs({
+        project_root.."/third_party/Vulkan-Headers/include",
+      })
+    end
     files({
       "../window_demo.cc",
       "vulkan_window_demo.cc",

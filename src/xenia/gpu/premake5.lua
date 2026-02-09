@@ -34,9 +34,11 @@ project("xenia-gpu")
     "xenia-ui",
     "xxhash",
   })
-  includedirs({
-    project_root.."/third_party/Vulkan-Headers/include",
-  })
+  if not use_system_vulkan_headers then
+    includedirs({
+      project_root.."/third_party/Vulkan-Headers/include",
+    })
+  end
   local_platform_files()
 
 group("src")
@@ -71,9 +73,11 @@ project("xenia-gpu-shader-compiler")
     "xenia-ui",
     "xenia-ui-vulkan",
   })
-  includedirs({
-    project_root.."/third_party/Vulkan-Headers/include",
-  })
+  if not use_system_vulkan_headers then
+    includedirs({
+      project_root.."/third_party/Vulkan-Headers/include",
+    })
+  end
   files({
     "shader_compiler_main.cc",
     "../base/console_app_main_"..platform_suffix..".cc",

@@ -31,9 +31,11 @@ project("xenia-gpu-vulkan")
     "xenia-ui-vulkan",
     "xxhash",
   })
-  includedirs({
-    project_root.."/third_party/Vulkan-Headers/include",
-  })
+  if not use_system_vulkan_headers then
+    includedirs({
+      project_root.."/third_party/Vulkan-Headers/include",
+    })
+  end
   local_platform_files()
   files({
     "../shaders/bytecode/vulkan_spirv/*.h",
@@ -99,9 +101,11 @@ if enableMiscSubprojects then
       "snappy",
       "xxhash",
     })
-    includedirs({
-      project_root.."/third_party/Vulkan-Headers/include",
-    })
+    if not use_system_vulkan_headers then
+      includedirs({
+        project_root.."/third_party/Vulkan-Headers/include",
+      })
+    end
     files({
       "vulkan_trace_viewer_main.cc",
       "../../ui/windowed_app_main_"..platform_suffix..".cc",
@@ -186,9 +190,11 @@ if enableMiscSubprojects then
       "snappy",
       "xxhash",
     })
-    includedirs({
-      project_root.."/third_party/Vulkan-Headers/include",
-    })
+    if not use_system_vulkan_headers then
+      includedirs({
+        project_root.."/third_party/Vulkan-Headers/include",
+      })
+    end
     files({
       "vulkan_trace_dump_main.cc",
       "../../base/console_app_main_"..platform_suffix..".cc",
