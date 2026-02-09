@@ -23,6 +23,9 @@ project("xenia-app")
   if use_system_capstone then
     pkg_config.all("capstone")
   end
+  if use_system_snappy then
+    pkg_config.all("snappy")
+  end
   links({
     "xenia-apu",
     "xenia-apu-nop",

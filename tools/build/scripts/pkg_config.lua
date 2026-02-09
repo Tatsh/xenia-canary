@@ -46,6 +46,12 @@ function pkg_config.all(lib)
     links(glslang_system_links)
     return
   end
+  -- When snappy has no pkg-config (e.g. Gentoo), use fallback include/links.
+  if lib == "snappy" and use_system_snappy and snappy_system_include and snappy_system_links then
+    includedirs(snappy_system_include)
+    links(snappy_system_links)
+    return
+  end
   pkg_config.cflags(lib)
   pkg_config.lflags(lib)
 end

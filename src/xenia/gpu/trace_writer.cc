@@ -11,8 +11,7 @@
 
 #include <cstring>
 
-#include "third_party/snappy/snappy-sinksource.h"
-#include "third_party/snappy/snappy.h"
+#include "xenia/base/snappy_include.h"
 
 #include "build/version.h"
 #include "xenia/base/assert.h"

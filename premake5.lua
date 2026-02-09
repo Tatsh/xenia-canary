@@ -104,6 +104,28 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_SNAPPY: use system snappy when set (Linux only). Fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo app-arch/snappy without .pc), fall back to /usr/include/snappy.h.
+use_system_snappy = false
+snappy_pkg_config_available = false
+snappy_system_include = nil
+snappy_system_links = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_SNAPPY") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_snappy = true
+    snappy_pkg_config_available = os.execute("pkg-config --exists snappy")
+    if not snappy_pkg_config_available then
+      if os.isfile("/usr/include/snappy.h") or os.isfile("/usr/include/snappy/snappy.h") then
+        snappy_system_include = "/usr/include"
+        snappy_system_links = { "snappy" }
+      else
+        error("USE_SYSTEM_SNAPPY is set but snappy was not found (no pkg-config and no /usr/include/snappy.h). Install app-arch/snappy or unset USE_SYSTEM_SNAPPY.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -144,6 +166,9 @@ end
 if use_system_capstone then
   defines({ "XENIA_USE_SYSTEM_CAPSTONE" })
   defines({ "CAPSTONE_X86_ATT_DISABLE", "CAPSTONE_HAS_X86", "CAPSTONE_USE_SYS_DYN_MEM" })
+end
+if use_system_snappy then
+  defines({ "XENIA_USE_SYSTEM_SNAPPY" })
 end
 
 cdialect("C17")
@@ -427,7 +452,9 @@ workspace("xenia")
   end
   include("third_party/imgui.lua")
   include("third_party/mspack.lua")
-  include("third_party/snappy.lua")
+  if not use_system_snappy then
+    include("third_party/snappy.lua")
+  end
   if not use_system_xxhash then
     include("third_party/xxhash.lua")
   end

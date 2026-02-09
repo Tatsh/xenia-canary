@@ -15,6 +15,9 @@ project("xenia-gpu")
   if use_system_glslang then
     pkg_config.all("glslang")
   end
+  if use_system_snappy then
+    pkg_config.all("snappy")
+  end
   links(use_system_glslang and {
     "dxbc",
     "fmt",
@@ -46,6 +49,9 @@ project("xenia-gpu-shader-compiler")
   end
   if use_system_glslang then
     pkg_config.all("glslang")
+  end
+  if use_system_snappy then
+    pkg_config.all("snappy")
   end
   links(use_system_glslang and {
     "dxbc",

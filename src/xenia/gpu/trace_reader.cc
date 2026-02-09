@@ -9,7 +9,7 @@
 
 #include "xenia/gpu/trace_reader.h"
 
-#include "third_party/snappy/snappy.h"
+#include "xenia/base/snappy_include.h"
 #include "xenia/base/filesystem.h"
 #include "xenia/base/logging.h"
 #include "xenia/base/mapped_memory.h"
