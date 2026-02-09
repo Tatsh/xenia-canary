@@ -8,7 +8,7 @@
 */
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-#include <xbyak/xbyak/xbyak_util.h>
+#include "xenia/base/xbyak_include.h"
 
 #include "xenia/ui/window_gtk.h"
 

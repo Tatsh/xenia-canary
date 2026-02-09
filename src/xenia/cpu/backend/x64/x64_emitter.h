@@ -21,8 +21,7 @@
 #include "xenia/cpu/xex_module.h"
 #include "xenia/memory.h"
 // NOTE: must be included last as it expects windows.h to already be included.
-#include "third_party/xbyak/xbyak/xbyak.h"
-#include "third_party/xbyak/xbyak/xbyak_util.h"
+#include "xenia/base/xbyak_include.h"
 #include "x64_amdfx_extensions.h"
 namespace xe {
 namespace cpu {

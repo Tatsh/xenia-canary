@@ -12,7 +12,7 @@
 #include <cstdlib>
 
 // Includes Windows headers, so it goes after platform_win.h.
-#include "third_party/xbyak/xbyak/xbyak_util.h"
+#include "xenia/base/xbyak_include.h"
 
 class StartupCpuFeatureCheck {
  public:

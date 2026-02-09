@@ -190,6 +190,26 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_XBYAK: use system xbyak when set (Linux only). Header-only; fail if set and not found.
+-- Prefer pkg-config; if unavailable (e.g. Gentoo without .pc), fall back to /usr/include/xbyak.
+use_system_xbyak = false
+xbyak_pkg_config_available = false
+xbyak_system_include = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_XBYAK") or ""
+  if env ~= "" and env ~= "0" then
+    use_system_xbyak = true
+    xbyak_pkg_config_available = os.execute("pkg-config --exists xbyak")
+    if not xbyak_pkg_config_available then
+      if os.isfile("/usr/include/xbyak/xbyak.h") or os.isdir("/usr/include/xbyak") then
+        xbyak_system_include = "/usr/include"
+      else
+        error("USE_SYSTEM_XBYAK is set but xbyak was not found (no pkg-config and no /usr/include/xbyak). Install dev-libs/xbyak or unset USE_SYSTEM_XBYAK.")
+      end
+    end
+  end
+end
+
 -- Define an ARCH variable
 -- Only use this to enable architecture-specific functionality.
 if os.istarget("linux") then
@@ -208,6 +228,20 @@ if use_system_cxxopts then
     includedirs(cxxopts_system_include)
   else
     local cflags = os.outputof("pkg-config --cflags cxxopts")
+    if cflags then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
+if use_system_xbyak then
+  if xbyak_system_include then
+    includedirs(xbyak_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags xbyak")
     if cflags then
       for _, flag in next, string.explode(cflags, " ") do
         if flag and flag:sub(1, 2) == "-I" then
@@ -256,6 +290,9 @@ if use_system_zlib_ng then
 end
 if use_system_cxxopts then
   defines({ "XENIA_USE_SYSTEM_CXXOPTS" })
+end
+if use_system_xbyak then
+  defines({ "XENIA_USE_SYSTEM_XBYAK" })
 end
 
 cdialect("C17")

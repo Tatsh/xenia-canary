@@ -10,8 +10,7 @@
 #include "xenia/base/cvar.h"
 #include "xenia/base/platform.h"
 #define XBYAK_NO_OP_NAMES
-#include "third_party/xbyak/xbyak/xbyak.h"
-#include "third_party/xbyak/xbyak/xbyak_util.h"
+#include "xenia/base/xbyak_include.h"
 DEFINE_int64(x64_extension_mask, -1LL,
              "Allow the detection and utilization of specific instruction set "
              "features.\n"
