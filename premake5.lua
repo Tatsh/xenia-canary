@@ -576,6 +576,26 @@ filter({"configurations:Release", "platforms:Windows"}) -- "toolset:msc"
 --    "/Qpar",   -- TODO: Test this.
   })
 
+filter("configurations:RelWithDebInfo")
+  runtime("Release")
+  defines({
+    "NDEBUG",
+    "_NO_DEBUG_HEAP=1",
+  })
+  flags({
+    "NoBufferSecurityCheck"
+  })
+  inlining("Auto")
+  editandcontinue("Off")
+filter({"configurations:RelWithDebInfo", "platforms:not Windows"})
+  symbols("On")
+filter({"configurations:RelWithDebInfo", "platforms:Windows"}) -- "toolset:msc"
+  linktimeoptimization("On")
+  buildoptions({
+    "/Gw",
+    "/Ob3",
+  })
+
 filter("platforms:Linux")
   system("linux")
   toolset("clang")
@@ -756,7 +776,7 @@ workspace("xenia")
       filter({})
     end
   end
-  configurations({"Checked", "Debug", "Release"})
+  configurations({"Checked", "Debug", "Release", "RelWithDebInfo"})
 
   include("third_party/aes_128.lua")
   if not use_system_capstone then
