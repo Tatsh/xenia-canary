@@ -11,7 +11,7 @@
 
 #include "third_party/imgui/imgui.h"
 #include "third_party/stb/stb_image_write.h"
-#include "third_party/tomlplusplus/toml.hpp"
+#include "xenia/base/tomlplusplus_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/clock.h"
 #include "xenia/base/cvar.h"

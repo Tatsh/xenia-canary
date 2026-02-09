@@ -11,7 +11,7 @@
 #define XENIA_CONFIG_H_
 
 #include <filesystem>
-#include "third_party/tomlplusplus/toml.hpp"
+#include "xenia/base/tomlplusplus_include.h"
 
 toml::parse_result ParseFile(const std::filesystem::path& filename);
 

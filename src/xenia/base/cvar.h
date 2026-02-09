@@ -17,7 +17,7 @@
 
 #include "xenia/base/cxxopts_include.h"
 #include "xenia/base/fmt_include.h"
-#include "third_party/tomlplusplus/include/toml++/toml.hpp"
+#include "xenia/base/tomlplusplus_include.h"
 #include "xenia/base/assert.h"
 #include "xenia/base/filesystem.h"
 #include "xenia/base/platform.h"

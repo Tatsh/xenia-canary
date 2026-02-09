@@ -10,7 +10,7 @@
 #ifndef XENIA_PLUGIN_LOADER_H_
 #define XENIA_PLUGIN_LOADER_H_
 
-#include "third_party/tomlplusplus/toml.hpp"
+#include "xenia/base/tomlplusplus_include.h"
 #include "xenia/kernel/kernel_state.h"
 #include "xenia/memory.h"
 

@@ -15,7 +15,7 @@
 #include <optional>
 #include <regex>
 
-#include "third_party/tomlplusplus/toml.hpp"
+#include "xenia/base/tomlplusplus_include.h"
 
 namespace xe {
 namespace patcher {
