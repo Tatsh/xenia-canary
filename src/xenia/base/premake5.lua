@@ -11,6 +11,9 @@ project("xenia-base")
   links({
     "fmt",
   })
+  filter("platforms:Linux or platforms:Mac")
+    sdl2_include()
+  filter({})
   local_platform_files()
   removefiles({
     "console_app_main_*.cc",

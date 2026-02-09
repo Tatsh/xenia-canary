@@ -18,8 +18,8 @@
 #include "xenia/base/string.h"
 #include "xenia/base/system.h"
 
-// Use headers in third party to not depend on system sdl headers for building
-#include "third_party/SDL2/include/SDL.h"
+// Use system SDL on Linux/Mac (sdl2_include() in premake); bundled on Windows.
+#include <SDL.h>
 
 namespace xe {
 
