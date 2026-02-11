@@ -147,23 +147,24 @@ struct DPCImpersonationScope {
   uint8_t previous_irql_;
 };
 
+struct KernelVersionParts {
+  xe::be<uint16_t> major;
+  xe::be<uint16_t> minor;
+  xe::be<uint16_t> build;
+  xe::be<uint16_t> qfe;
+};
+
 struct KernelVersion {
   union {
     xe::be<uint64_t> value;
-
-    struct {
-      xe::be<uint16_t> major;
-      xe::be<uint16_t> minor;
-      xe::be<uint16_t> build;
-      xe::be<uint16_t> qfe;
-    };
+    KernelVersionParts parts;
   };
 
   KernelVersion(uint16_t build_ver = kBaseKernelBuildVersion) {
-    major = 2;
-    minor = 0;
-    build = std::max(kBaseKernelBuildVersion, build_ver);
-    qfe = 0;
+    parts.major = 2;
+    parts.minor = 0;
+    parts.build = std::max(kBaseKernelBuildVersion, build_ver);
+    parts.qfe = 0;
   }
 };
 

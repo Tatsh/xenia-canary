@@ -201,7 +201,13 @@ class CommandProcessor {
   virtual void WriteRegistersFromMem(uint32_t start_index, uint32_t* base,
                                      uint32_t num_registers);
 
+  // GCC fails with "inlining failed: function body not available" when the
+  // virtual definition is in a .cc and callers (e.g. pm4 template) are in
+  // headers. Omit XE_FORCEINLINE for GCC only so the call uses the out-of-line
+  // definition; Clang and others keep the hint.
+#if !defined(__GNUC__) || defined(__clang__)
   XE_FORCEINLINE
+#endif
   virtual void WriteRegisterRangeFromRing(xe::RingBuffer* ring, uint32_t base,
                                           uint32_t num_registers);
 
