@@ -13,7 +13,13 @@
 #include <chrono>
 #include <cstdint>
 
+#if defined(XENIA_FORCE_BUNDLED_DATE)
 #include "third_party/date/include/date/tz.h"
+#elif defined(XENIA_USE_SYSTEM_DATE)
+#include <date/tz.h>
+#else
+#include "third_party/date/include/date/tz.h"
+#endif
 
 #include "xenia/base/clock.h"
 

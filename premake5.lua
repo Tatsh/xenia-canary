@@ -292,6 +292,23 @@ if os.istarget("linux") then
   end
 end
 
+-- USE_SYSTEM_DATE: use system date library (Howard Hinnant, dev-libs/date) when set to "1" (Linux only). Header-only; fail if set and not found.
+use_system_date = false
+date_system_include = nil
+if os.istarget("linux") then
+  local env = os.getenv("USE_SYSTEM_DATE") or ""
+  if env == "1" then
+    use_system_date = true
+    if os.execute("pkg-config --exists date") then
+      -- pkg-config cflags will be used for includedirs below
+    elseif os.isfile("/usr/include/date/tz.h") or os.isdir("/usr/include/date") then
+      date_system_include = "/usr/include"
+    else
+      error("USE_SYSTEM_DATE=1 but date library was not found. Install dev-libs/date or unset USE_SYSTEM_DATE.")
+    end
+  end
+end
+
 -- USE_SYSTEM_DISCORD_RPC: use system discord-rpc when set (Linux only). Link lib; fail if set and not found.
 use_system_discord_rpc = false
 discord_rpc_pkg_config_available = false
@@ -431,6 +448,20 @@ if use_system_vulkan_memory_allocator then
     end
   end
 end
+if use_system_date then
+  if date_system_include then
+    includedirs(date_system_include)
+  else
+    local cflags = os.outputof("pkg-config --cflags date")
+    if cflags and cflags ~= "" then
+      for _, flag in next, string.explode(cflags, " ") do
+        if flag and flag:sub(1, 2) == "-I" then
+          includedirs(flag:sub(3))
+        end
+      end
+    end
+  end
+end
 
 defines({
   "VULKAN_HPP_NO_TO_STRING",
@@ -488,6 +519,11 @@ if use_system_vulkan_headers then
 end
 if use_system_vulkan_memory_allocator then
   defines({ "XENIA_USE_SYSTEM_VULKAN_MEMORY_ALLOCATOR" })
+end
+if use_system_date then
+  defines({ "XENIA_USE_SYSTEM_DATE" })
+else
+  defines({ "XENIA_FORCE_BUNDLED_DATE" })
 end
 if use_system_discord_rpc then
   defines({ "XENIA_USE_SYSTEM_DISCORD_RPC" })
